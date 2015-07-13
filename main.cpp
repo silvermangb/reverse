@@ -32,14 +32,34 @@ dump
 		cout << node->Value << endl;
 		node = node->Next;
 	}
+	cout << "-------" << endl;
+	cout.flush();
 }
+
+void
+reverse
+  (NodeType& root)
+{
+	NodeType prev(nullptr);
+	NodeType curr = root;
+	NodeType next;
+	while(curr)
+	{
+		next = curr->Next;
+		curr->Next = prev;
+		prev = curr;
+		curr = next;
+	}
+	root = prev;
+}
+
 int
 main
 	()
 {
 	NodeType root(new Node(0));
 	NodeType node = root;
-	for(int i=1;i<16;++i)
+	for(int i=1;i<4;++i)
 	{
 		NodeType next_node(new Node(i));
 		node->Next = next_node;
@@ -47,19 +67,7 @@ main
 
 	}
 	dump(root);
-
-	NodeType prev(nullptr);
-	while(true)
-	{
-		NodeType next = root->Next;
-		root->Next = prev;
-		prev = root;
-		if(!next)
-		{
-			break;
-		}
-		root = next;
-	}
+	reverse(root);
 	dump(root);
 	return 0;
 }
