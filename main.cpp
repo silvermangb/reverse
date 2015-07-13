@@ -12,7 +12,7 @@ using namespace std;
 #include <memory>
 
 class Node;
-using NodeType = shared_ptr<Node>;
+using NodeType = Node *;
 
 class Node
 {
@@ -34,6 +34,24 @@ dump
 	}
 	cout << "-------" << endl;
 	cout.flush();
+}
+
+NodeType
+recursivReverse
+  (NodeType& curr,NodeType prev)
+{
+	if(!curr)
+	{
+		return prev;
+	}
+	else
+	{
+		NodeType next = curr->Next;
+		curr->Next = prev;
+		prev = curr;
+		curr = next;
+		return recursivReverse(curr,prev);
+	}
 }
 
 void
@@ -67,7 +85,8 @@ main
 
 	}
 	dump(root);
-	reverse(root);
+	NodeType prev(nullptr);
+	root = recursivReverse(root,prev);
 	dump(root);
 	return 0;
 }
